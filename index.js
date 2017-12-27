@@ -1,9 +1,11 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
 	res.send('Just testing the app!');
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+	console.log('Server started on port ' + PORT);
+});
