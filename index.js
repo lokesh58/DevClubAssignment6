@@ -26,11 +26,11 @@ app.post('/auth', (req, res) => {
 			res.send("Error " + err);
 		} else {
 			const query = `SELECT * FROM users WHERE username = '${user}' AND password = '${pass}';`;
-			//res.send("Given query is: " + query);
+			console.log("Given query is: " + query);
 			client.query(query, (err, result) => {
 				done();
 				if (err) {
-					console.log(err);
+					console.error(err);
 					res.send("Error " + err);
 				} else {
 					res.render('pages/auth', {results: result.rows});
@@ -53,7 +53,26 @@ app.post('/addUser', (req, res) => {
 	console.log('LName: ' + lname);
 	console.log('Username : ' + user);
 	console.log('Password : ' + pass);
-	res.send('Working on registration');
+	//res.send('Working on registration');
+
+	pg.connect(process.env.DATABASE_URL, (err, client, done) => {
+		if (err) {
+			console.error(err);
+			res.send("Error " + err);
+		} else {
+			const query = `INSERT INTO users (username, password, fname, lname) VALUES ('${user}', '${pass}', '${fname}', '${fname}');`;
+			console.log("Given query is: " + query);
+			client.query(query, (err, result) => {
+				done();
+				if (err) {
+					console.error(err);
+					res.send("Error " + err);
+				} else {
+					res.send("Succesfully registered");
+				}
+			});
+		}
+	});
 });
 
 app.listen(PORT, () => {
