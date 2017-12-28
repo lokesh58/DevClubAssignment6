@@ -21,12 +21,20 @@ app.post('/auth', (req, res) => {
 	console.log('Password: ' + pass);
 	//res.send('Working on login Auth');
 	pg.connect(process.env.DATABASE_URL, (err, client, done) => {
-		if (err) throw err;
-		client.query('SELECT * FROM users WHERE username = "' + user + '" AND password = "' + pass + '";', (err, result) => {
-			done();
-			if (err) throw err;
-			res.render('pages/auth', {results: result.rows});
-		});
+		if (err) {
+			console.error(err);
+			res.send("Error " + err);
+		} else {
+			client.query('SELECT * FROM users WHERE username = "' + user + '" AND password = "' + pass + '";', (err, result) => {
+				done();
+				if (err) {
+					console.log(err);
+					res.send("Error " + err);
+				} else {
+					res.render('pages/auth', {results: result.rows});
+				}
+			});
+		}
 	});
 });
 
