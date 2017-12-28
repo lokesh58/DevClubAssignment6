@@ -33,7 +33,7 @@ app.post('/auth', (req, res) => {
 					console.error(err);
 					res.send("Error " + err);
 				} else {
-					res.send("Query successful");
+					res.send("Query successful" + result);
 				}
 			});
 		}
@@ -68,7 +68,7 @@ app.post('/addUser', (req, res) => {
 					console.error(err);
 					res.send("Error " + err);
 				} else {
-					res.send("Succesfully registered");
+					res.send("Succesfully registered" + result);
 				}
 			});
 		}
