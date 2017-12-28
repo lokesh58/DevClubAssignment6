@@ -68,19 +68,29 @@ app.post('/addUser', (req, res) => {
 			const checkQ = `SELECT * FROM users WHERE username = '${user}'`;
 			client.query(checkQ, (err, result) => {
 				if (err) {
+					done();
 					console.log(err);
 					res.send("Error " + err);
 				} else {
 					if (result.rows.length == 0) {
 						const query = `INSERT INTO users (fname, lname, username, password) VALUES ('${fname}', '${lname}', '${user}', '${pass}');`;
 						client.query(query, (err, result) => {
-							done();
 							if (err) {
+								done();
 								console.log(err);
 								res.send("Error " + err);
 							} else {
-								console.log("Registration successful!");
-								res.send("Registration successful!");
+								const userQ = `CREATE TABLE ${user} (id serial primary key, note text not null);`;
+								client.query(userQ, (err, result) => {
+									done();
+									if (err) {
+										console.log(err);
+										res.send("Error " + err);
+									} else {
+										console.log("Registration successful!");
+										res.send("Registration successful!");
+									}
+								});
 							}
 						});
 					} else {
