@@ -26,8 +26,8 @@ app.post('/auth', (req, res) => {
 			res.send("Error " + err);
 		} else {
 			const query = `SELECT * FROM users WHERE username = "${user}" AND password = "${pass}"`;
-			res.send("Given query is: " + query);
-			/*client.query('SELECT * FROM users WHERE username = "' + user + '" AND password = "' + pass + '";', (err, result) => {
+			//res.send("Given query is: " + query);
+			client.query(query, (err, result) => {
 				done();
 				if (err) {
 					console.log(err);
@@ -35,7 +35,7 @@ app.post('/auth', (req, res) => {
 				} else {
 					res.render('pages/auth', {results: result.rows});
 				}
-			});*/
+			});
 		}
 	});
 });
