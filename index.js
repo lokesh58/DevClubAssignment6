@@ -60,7 +60,7 @@ app.post('/addUser', (req, res) => {
 			console.error(err);
 			res.send("Error " + err);
 		} else {
-			const query = `INSERT INTO users (username, password, fname, lname) VALUES ('${user}', '${pass}', '${fname}', '${fname}');`;
+			const query = `INSERT INTO users (username, password, fname, lname) VALUES ('${user}', '${pass}', '${fname}', '${lname}');`;
 			console.log("Given query is: " + query);
 			client.query(query, (err, result) => {
 				done();
