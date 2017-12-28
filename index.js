@@ -33,7 +33,7 @@ app.post('/auth', (req, res) => {
 					console.error(err);
 					res.send("Error " + err);
 				} else {
-					res.render('pages/auth', {results: result.rows});
+					res.send("Query successful");
 				}
 			});
 		}
