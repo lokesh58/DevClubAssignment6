@@ -25,7 +25,7 @@ app.post('/auth', (req, res) => {
 			console.error(err);
 			res.send("Error " + err);
 		} else {
-			const query = `SELECT * FROM users WHERE username = '${user}' AND password = '${pass}'`;
+			const query = `SELECT * FROM users WHERE username = '${user}' AND password = '${pass}';`;
 			res.send("Given query is: " + query);
 			client.query(query, (err, result) => {
 				done();
