@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const bodyParser = require('body-parser');
+const pg = require('pg');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -14,13 +15,30 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/auth', (req, res) => {
-	console.log('Username: ' + req.body.user);
-	console.log('Password: ' + req.body.pass);
-	res.send('Working on login Auth');
+	const user = req.body.user;
+	const pass = req.body.pass;
+	console.log('Username: ' + user);
+	console.log('Password: ' + pass);
+	//res.send('Working on login Auth');
+	pg.connect(process.env.DATABASE_URL, (err, client, done) => {
+		//CHECK
+	});
 });
 
 app.get('/register', (req, res) => {
-	res.send("Register will be updated soon");
+	res.sendFile(__dirname + '/source/register.html');
+});
+
+app.post('/addUser', (req, res) => {
+	const fname = req.body.fname;
+	const lname = req.body.lname;
+	const user = req.body.user;
+	const pass = req.body.pass;
+	console.log('FName: ' + fname);
+	console.log('LName: ' + lname);
+	console.log('Username : ' + user);
+	console.log('Password : ' + pass);
+	res.send('Working on registration');
 });
 
 app.listen(PORT, () => {
