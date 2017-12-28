@@ -34,7 +34,11 @@ app.post('/auth', (req, res) => {
 					res.send("Error " + err);
 				} else {
 					console.log("Query successful");
-					res.render('pages/db', {results: result.rows});
+					if (result.rows.length == 0) {
+						res.send("Invalid Credentials!");
+					} else {
+						res.send("Login successful!");
+					}
 				}
 			});
 		}
