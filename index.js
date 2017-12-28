@@ -65,15 +65,27 @@ app.post('/addUser', (req, res) => {
 			console.error(err);
 			res.send("Error " + err);
 		} else {
-			const query = `INSERT INTO users (username, password, fname, lname) VALUES ('${user}', '${pass}', '${fname}', '${lname}');`;
-			console.log("Given query is: " + query);
-			client.query(query, (err, result) => {
-				done();
+			const checkQ = `SELECT * FROM users WHERE username = '${user}'`;
+			client.query(checkQ, (err, result) => {
 				if (err) {
-					console.error(err);
+					console.log(err);
 					res.send("Error " + err);
 				} else {
-					res.send("Succesfully registered" + result);
+					if (result.rows.length == 0) {
+						const query = `INSERT INTO users (fname, lname, username, password) VALUES ('${fname}', '${lname}', '${user}', '${pass}');`;
+						client.query(query, (err, result) => {
+							done();
+							if (err) {
+								console.log(err);
+								res.send("Error " + err);
+							} else {
+								console.log("Registration successful!");
+								res.send("Registration successful!");
+							}
+						});
+					} else {
+						res.send("Username already exists!");
+					}
 				}
 			});
 		}
