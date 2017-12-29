@@ -9,11 +9,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.get('/', (req, res) => {
-	res.sendFile(__dirname + '/source/home.html');
+	const user = req.cookies['loginInfo'];
+	if (user == undefined) {
+		res.sendFile(__dirname + '/source/home.html');
+	} else {
+		res.redirect('/' + user);
+	}
 });
 
 app.get('/login', (req, res) => {
-	res.sendFile(__dirname + '/source/login.html');
+	const user = req.cookies['loginInfo'];
+	if (user == undefined) {
+		res.sendFile(__dirname + '/source/login.html');
+	} else {
+		res.redirect('/' + user);
+	}
 });
 
 app.post('/login/auth', (req, res) => {
@@ -50,6 +60,10 @@ app.post('/login/auth', (req, res) => {
 });
 
 app.get('/register', (req, res) => {
+	const user = req.cookies['loginInfo'];
+	if (user != undefined) {
+		res.clearCookie('loginInfo');
+	}
 	res.sendFile(__dirname + '/source/register.html');
 });
 
@@ -112,7 +126,7 @@ app.get('/:user', (req, res) => {
 	if (userC == user) {
 		res.send('Successfully signed in as ' + user);
 	} else {
-		res.send('Login before continuing');
+		res.redirect('/');
 	}
 });
 
