@@ -6,21 +6,106 @@
 	</head>
 	<body>
 		<h2>Register for Notes</h2>
-		<form action="register/addUser" method="post" id="regForm" onSubmit="return checkForm()">
+		<form action="register/addUser" method="post" id="regForm" onSubmit="return validateForm()">
 			<fieldset>
 				<legend>Personal Information:</legend>
-				<p>First name:<br /><input type="text" name="fname" placeholder="Enter your first name"></input></p>
-				<p>Last name:<br /><input type="text" name="lname" placeholder="Enter your last name"></input></p>
+				<p>First name:<br /><input type="text" name="fname" id="fname" placeholder="Enter your first name"></input></p>
+				<p>Last name:<br /><input type="text" name="lname" id="lname" placeholder="Enter your last name"></input></p>
 			</fieldset>
 			<br />
 			<fieldset>
 				<legend>Login Information:</legend>
 				<p>Username:<br /><input type="text" name="user" id="user" placeholder="Create your username"></input></p>
 				<p>Password:<br /><input type="password" name="pass" id="pass" placeholder="Create your password"></input></p>
-				<p>Confirm Password:<br /><input type="password" name="pass2" id="pass2" placeholder="Type your password again"></input></p>
+				<p>Confirm Password:<br /><input type="password" id="pass2" placeholder="Type your password again"></input></p>
 			</fieldset>
 			<input type="submit" value="Submit"></input>
 		</form>
+		<script>
+			const pg = require('pg');
+			
+			function alpha(str) {
+				for (let i = 0; i < str.length; i++) {
+					let c = str.charAt(i);
+					if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == ' ')) {
+						return false;
+					}
+				}
+				return true;
+			}
+			
+			function alphaNum(str) {
+				for (let i = 0; i < str.length; i++) {
+					let c = str.charAt(i);
+					if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))) {
+						return false;
+					}
+				}
+				return true;
+			}
+			
+			function validateForm() {
+				const fname = document.getElementById('fname');
+				const lname = document.getElementById('lname');
+				const user = document.getElementById('user');
+				const pass = document.getElementById('pass');
+				const pass2 = document.getElementById('pass2');
+				if (fname.value == '' || lname.value == '' || user.value == '' || pass.value == '' || pass2.value == '') {
+					return false;
+				}
+				let errors = false;
+				if (!alpha(fname.value)) {
+					errors = true;
+					fname.value = '';
+					fname.placeholder = 'MUST BE ALPHABETS ONLY';
+				}
+				if (!alpha(lname.value)) {
+					errors = true;
+					lname.value = '';
+					lname.placeholder = 'MUST BE ALPHABETS ONLY';
+				}
+				if (!alphaNum(user.value)) {
+					errors = true;
+					user.value = '';
+					user.placeholder = 'MUST BE ALPHANUMERIC';
+				} else {
+					pg.connect(process.env.DATABASE_URL, (err, client, done) => {
+							if (err) {
+								errors = true;
+								console.error(err);
+							} else {
+								const checkQ = `SELECT * FROM users WHERE username = '${user.value}'`;
+								client.query(checkQ, (err, result) => {
+									done();
+									if (err) {
+										errors = true;
+										console.log(err);
+									} else if (result.rows.length > 0) {
+										errors = true;
+										user.value = '';
+										user.placeholder = 'ALREADY EXISTS';
+									}
+								});
+							}
+					});
+				}
+				if (!alphaNum(pass.value)) {
+					errors = true;
+					pass.placeholder = 'MUST BE ALPHANUMERIC';
+				}
+				if (pass.value != pass2.value) {
+					errors = true;
+					pass2.placeholder = 'Passwords DON\'T MATCH';
+				}
+
+				if (errors) {
+					pass.value = '';
+					pass2.value = '';
+					return false;
+				}
+				return true;
+			}
+		</script>
 		<br />
 		<p>Already registered? Click <a href="login">here</a> to login</p>
 	</body>
