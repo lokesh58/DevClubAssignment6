@@ -37,7 +37,7 @@ app.post('/login/auth', (req, res) => {
 				} else {
 					console.log("Query successful");
 					if (result.rows.length == 0) {
-						res.send("Invalid Credentials!");
+						res.sendFile(__dirname + '/source/loginfail.html');
 					} else {
 						res.cookie('loginInfo', user, {maxAge: 3.6e6});
 						console.log("Login successful!");
@@ -92,7 +92,7 @@ app.post('/register/addUser', (req, res) => {
 										res.send("Error " + err);
 									} else {
 										console.log("Registration successful!");
-										res.send("Registration successful!");
+										res.sendFile(__dirname + '/source/regsuccess.html');
 									}
 								});
 							}
