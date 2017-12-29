@@ -67,51 +67,15 @@ app.get('/register', (req, res) => {
 	res.sendFile(__dirname + '/source/register.html');
 });
 
-app.post('/register', (req, res) => {
-	const fname = req.body.fname;
-	const lname = req.body.lname;
-	const user = req.body.user;
-	const fe = req.body.fe;
-	const le = req.body.le;
-	const ue = req.body.ue;
-	const pe = req.body.pe;
-	var page = '<!doctype html><html><head><title>Register for Notes</title></head><body><h2>Register for Notes</h2><form action="/register/addUser" method="post">';
-	page += '<fieldset><legend>Personal Information:</legend><p>First name:<br /><input type="text" name="fname" value="' + fname  +'" />';
-	if (fe == 't') {
-		page += 'First name not valid (Only Alphabets)';
-	}
-	page += '</p>';
-	page += '<p>Last name:<br /><input type="text" name="lname" value="' + lname +'" />';
-	if (le == 't') {
-		page += 'Last name not valid (Only Alphabets)';
-	}
-	page += '</p><br /></fieldset>';
-	page += '<fieldset><legend>Login Information</legend><p>Username: <input type="text" name="user" value="' + user + '" />';
-	if (ue == 't') {
-		page += 'Username is not valid (Only Alphanumeric)';
-	}
-	page += '</p><p>Password:<br /><input type="password" name="pass" />';
-	if (pe == 't') {
-		page += 'Password not valid (Only Alphanumeric) or donot match';
-	}
-	page += '</p><p>Confirm Password:<br /><input type="password" name="pass2" /></p>';
-	page += '<input type="submit" value="Submit" /></form><br /><p>Already Registered? Click <a href="login">here</a> to login</p>';
-	page += '</body></html>';
-
-	res.send(page);
-});
-
 app.post('/register/addUser', (req, res) => {
 	const fname = req.body.fname;
 	const lname = req.body.lname;
 	const user = req.body.user;
 	const pass = req.body.pass;
-	const pass2 = req.body.pass2;
 	console.log('FName: ' + fname);
 	console.log('LName: ' + lname);
 	console.log('Username : ' + user);
 	console.log('Password : ' + pass);
-	console.log('Password2 : ' + pass2);
 	//res.send('Working on registration');
 
 	pg.connect(process.env.DATABASE_URL, (err, client, done) => {
