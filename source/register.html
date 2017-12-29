@@ -100,7 +100,7 @@
 					document.getElementById('pe').innerHTML = ' \*must not be empty';
 				} else if (!checkPass(pass.value)) {
 					errors = true;
-					document.getElementById('pe').innerHTML = ' \*must not contain \'-\', \'\'\', or \'\"\'';
+					document.getElementById('pe').innerHTML = ' \*must not contain -, \', or \"';
 				}
 				if (pass.value != pass2.value) {
 					errors = true;
