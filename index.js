@@ -40,7 +40,7 @@ app.post('/login/auth', (req, res) => {
 						res.send("Invalid Credentials!");
 					} else {
 						res.cookie('loginInfo', user, {maxAge: 3.6e6});
-						res.send("Login successful!");
+						res.write("Login successful!");
 						res.redirect('/' + user);
 					}
 				}
