@@ -112,7 +112,7 @@ app.post('/register/addUser', (req, res) => {
 							}
 						});
 					} else {
-						res.send("<p>Username already exists!</p>");
+						res.send("<p>Username already exists! Click here to <a href=\"register\">again</a></p>");
 					}
 				}
 			});
