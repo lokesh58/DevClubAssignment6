@@ -3,14 +3,71 @@
 <html>
 	<head>
 		<title>Login to Notes</title>
+		<style>
+			.error {
+				color: red;
+			}
+		</style>
 	</head>
 	<body>
 		<h2>Login to continue</h2>
-		<form method="post" action="login/auth">
-			<p>Username: <input type="text" name="user" placeholder="Enter your username"></input></p>
-			<p>Password: <input type="password" name="pass" placeholder="Enter your password"></input></p>
+		<form method="post" action="login/auth" onSubmit="return validateForm()">
+			<p>Username:<span id="ue" class="error"></span><br /><input type="text" name="user" id="user" placeholder="Enter your username"></input></p>
+			<p>Password:<span id="pe" class="error"></span><br /><input type="password" name="pass" id="pass" placeholder="Enter your password"></input></p>
 			<p><input type="submit" value="Login"></input></p>
 		</form>
+		<script>
+			function alphaNum(str) {
+				for (let i = 0; i < str.length; i++) {
+					let c = str.charAt(i);
+					if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))) {
+						return false;
+					}
+				}
+				return true;
+			}
+			
+			function checkPass(pass) {
+				for (let i = 0; i < pass.length; i++) {
+					let c = pass.charAt(i);
+					if (c == '-' || c == '\'' || c == '\"') {
+						return false;
+					}
+				}
+				return true;
+			}
+		
+			function validateForm() {
+				const user = document.getElementById('user');
+				const pass = document.getElementById('pass');
+				document.getElementById('ue').innerHTML = '';
+				document.getElementById('pe').innerHTML = '';
+				
+				let err = false;
+				if (user.value == '') {
+					err = true;
+					document.getElementById('ue').innerHTML = ' \*must not be empty';
+				} else if (!alphaNum(user.value)) {
+					err = true;
+					user.value = '';
+					document.getElementById('ue').innerHTML = ' \*should only be alphanumeric';
+				}
+				
+				if (pass.value == '') {
+					err = true;
+					document.getElementById('pe').innerHTML = ' \*must not be empty';
+				} else if (!checkPass(pass.value)) {
+					err = true;
+					document.getElementById('pe').innerHTML = ' \*must not contain -, \' or \"';
+				}
+				
+				if (err) {
+					pass.value = '';
+					return false;
+				}
+				return true;
+			}
+		</script>
 		<br />
 		<p>Not registered? Click <a href="register">here</a> to register</p>
 	</body>
