@@ -17,75 +17,11 @@
 				<legend>Login Information:</legend>
 				<p>Username:<br /><input type="text" name="user" id="user" placeholder="Create your username"></input></p>
 				<p>Password:<br /><input type="password" name="pass" id="pass" placeholder="Create your password"></input></p>
-				<p>Confirm Password:<br /><input type="password" id="pass2" placeholder="Type your password again"></input></p>
+				<p>Confirm Password:<br /><input type="password" name="pass2" id="pass2" placeholder="Type your password again"></input></p>
 			</fieldset>
 			<input type="submit" value="Submit"></input>
 		</form>
 		<br />
 		<p>Already registered? Click <a href="login">here</a> to login</p>
-		<script>
-			function checkForm() {
-				const fname = document.getElementById('fname');
-				const lname = document.getElementById('lname');
-				const user = document.getElementById('user');
-				const pass = document.getElementById('pass');
-				const pass2 = document.getElementById('pass2');
-				if (fname.value == "" || lname.value == "" || user.value == "" || pass.value == "" || pass2.value == "") {
-					return false;
-				}
-				let errors = [];
-				const alpha = /^[a-zA-Z]+$/;
-				const alphaNum = /^[a-zA-Z0-9]+$/;
-				if (!(alpha.test(fname.value))) {
-					errors.push('First Name must be only letters!');
-					fname.value = '';
-				}
-				if (!(alpha.test(lname.value))) {
-					errors.push('Last name must be only letters!');
-					lname.value = '';
-				}
-				if (!(alphaNum.test(user.value))) {
-					errors.push('Username must be only alpha-numeric!');
-					user.value = '';
-				} else {
-					const pg = require('pg');
-					pg.connect(process.env.DATABASE_URL, function (err, client, done) {
-						if (err) {
-							done();
-							console.log(err);
-							return false;
-						} else {
-							const query = `SELECT * FROM users WHERE username = '${user.value}'`;
-							client.query(query, function (err, result) {
-								if (err) {
-									console.log(err);
-									return false;
-								} else {
-									if (result.rows.length > 0) {
-										errors.push("Username already exists!");
-										user.value = '';
-									}
-								}
-							});
-						}
-					});
-				}
-				if (!(alphaNum.test(pass.value))) {
-					errors.push('Password must be only alpha-numeric!');
-				}
-				if (pass.value != pass2.value) {
-					errors.push('Both Passwords donot match');
-				}
-
-				if (errors.length == 0) {
-					return true;
-				} else {
-					pass.value = '';
-					pass2.value = '';
-					alert(errors);
-					return false;
-				}
-			}
-		</script>
 	</body>
 </html>
