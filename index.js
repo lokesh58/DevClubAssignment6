@@ -41,7 +41,7 @@ app.post('/login/auth', (req, res) => {
 					} else {
 						res.cookie('loginInfo', user, {maxAge: 3.6e6});
 						console.log("Login successful!");
-						res.location('/' + user);
+						res.redirect('/' + user);
 					}
 				}
 			});
