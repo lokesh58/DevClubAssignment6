@@ -2,9 +2,11 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const bodyParser = require('body-parser');
-const pg = require('pg');
+const pg = require('pg');a
+const cookieParser = require('cookie-parser');
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/source/home.html');
@@ -14,7 +16,7 @@ app.get('/login', (req, res) => {
 	res.sendFile(__dirname + '/source/login.html');
 });
 
-app.post('/auth', (req, res) => {
+app.post('/login/auth', (req, res) => {
 	const user = req.body.user;
 	const pass = req.body.pass;
 	console.log('Username: ' + user);
@@ -37,6 +39,7 @@ app.post('/auth', (req, res) => {
 					if (result.rows.length == 0) {
 						res.send("Invalid Credentials!");
 					} else {
+						res.cookie('loginInfo', user, {maxAge: 3.6e6});
 						res.send("Login successful!");
 					}
 				}
@@ -49,7 +52,7 @@ app.get('/register', (req, res) => {
 	res.sendFile(__dirname + '/source/register.html');
 });
 
-app.post('/addUser', (req, res) => {
+app.post('/register/addUser', (req, res) => {
 	const fname = req.body.fname;
 	const lname = req.body.lname;
 	const user = req.body.user;
@@ -100,6 +103,10 @@ app.post('/addUser', (req, res) => {
 			});
 		}
 	});
+});
+
+app.get('/:user', (req, res) => {
+	res.send('Successfully signed in as ' + req.params.user);
 });
 
 app.listen(PORT, () => {
