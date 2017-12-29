@@ -106,7 +106,13 @@ app.post('/register/addUser', (req, res) => {
 });
 
 app.get('/:user', (req, res) => {
-	res.send('Successfully signed in as ' + req.params.user);
+	const userC = req.cookies['loginInfo'];
+	const user = req.params.user;
+	if (userC == user) {
+		res.send('Successfully signed in as ' + user);
+	} else {
+		res.send('Login before continuing');
+	}
 });
 
 app.listen(PORT, () => {
