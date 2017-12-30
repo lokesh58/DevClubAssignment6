@@ -124,7 +124,7 @@ app.get('/:user', (req, res) => {
 	const userC = req.cookies['loginInfo'];
 	const user = req.params.user;
 	if (userC == user) {
-		res.send('Successfully signed in as ' + user);
+		res.sendFile(__dirname + '/source/notes.html');
 	} else {
 		if (userC != undefined) {
 			res.clearCookie('loginInfo');
