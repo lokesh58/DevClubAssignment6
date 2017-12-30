@@ -120,6 +120,14 @@ app.post('/register/addUser', (req, res) => {
 	});
 });
 
+app.get('/logout', (req, res) => {
+	const user = req.cookies['loginInfo'];
+	if (user != undefined) {
+		res.clearCookie('loginInfo');
+	}
+	res.redirect('/');
+});
+
 app.get('/:user', (req, res) => {
 	const userC = req.cookies['loginInfo'];
 	const user = req.params.user;
