@@ -62,7 +62,8 @@
 		<div id="addNote">
 			<input id="noteIn" type="text" placeholder="Enter note here..." /><button id="add"><img src="source/img/plus.png" alt="Add" /></button>
 		</div>
-		<iframe src="/viewNotes" id="notesView" />
+		<!-- Not Working for some reason<iframe src="/viewNotes" id="notesView" />-->
+		<p>Click <a href="/viewNotes">here</a> to view your notes</p>
 		<p><a href="/logout">Logout</a></p>
 		<form method="post" action="/addNote" id="theForm">
 			<input type="hidden" name="note" id="noteForm" />

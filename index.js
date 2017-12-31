@@ -131,7 +131,7 @@ app.get('/logout', (req, res) => {
 app.get('/viewNotes', (req, res) => {
 	const user = req.cookies['loginInfo'];
 	if (user != undefined) {
-		var MyWeb_Page = '<!doctype html><html><body><ul>';
+		var MyWeb_Page = '<!doctype html><html><head><title>Notes</title></head><body><h1>Notes</h1><hr /><ul>';
 		pg.connect(process.env.DATABASE_URL, (err, client, done) => {
 			if (err) {
 				console.log(err);
@@ -149,7 +149,7 @@ app.get('/viewNotes', (req, res) => {
 							MyWeb_Page += '<li>'+notes[i].note+'</li>';
 							console.log(MyWeb_Page);
 						}
-						MyWeb_Page += '</ul></body></html>';
+						MyWeb_Page += '</ul><p>Click <a href="/' + user + '">here</a> to go back</p></body></html>';
 						console.log(MyWeb_Page);
 						res.send(MyWeb_Page);
 					}
