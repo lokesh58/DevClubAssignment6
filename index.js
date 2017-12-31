@@ -128,22 +128,9 @@ app.get('/logout', (req, res) => {
 	res.redirect('/');
 });
 
-app.get('/:user', (req, res) => {
+app.get('/viewNotes', (req, res) => {
 	const userC = req.cookies['loginInfo'];
-	const user = req.params.user;
-	if (userC == user) {
-		res.sendFile(__dirname + '/source/notes.html');
-	} else {
-		if (userC != undefined) {
-			res.clearCookie('loginInfo');
-		}
-		res.redirect('/');
-	}
-});
-
-app.get('/:user/viewNotes', (req, res) => {
-	const userC = req.cookies['loginInfo'];
-	const user = req.params.user;
+	const user = (userC == undefined ? 'a' : userC);
 	if (userC == user) {
 		var MyWeb_Page = '<!doctype html><html><head><title>Notes</title></head><body><h1>Notes</h1><ul>';
 		pg.connect(process.env.DATABASE_URL, (err, client, done) => {
@@ -178,9 +165,10 @@ app.get('/:user/viewNotes', (req, res) => {
 	}
 });
 
-app.post('/:user/addNote', (req, res) => {
+
+app.post('/addNote', (req, res) => {
 	const userC = req.cookies['loinInfo'];
-	const user = req.params.user;
+	const user = (userC == undefined ? 'a' : userC);
 	if (userC == user) {
 		const note = req.body.note;
 		pg.connect(process.env.DATABASE_URL, (err, client, done) => {
@@ -207,6 +195,21 @@ app.post('/:user/addNote', (req, res) => {
 		res.redirect('/');
 	}
 });
+
+app.get('/:user', (req, res) => {
+	const userC = req.cookies['loginInfo'];
+	const user = req.params.user;
+	if (userC == user) {
+		res.sendFile(__dirname + '/source/notes.html');
+	} else {
+		if (userC != undefined) {
+			res.clearCookie('loginInfo');
+		}
+		res.redirect('/');
+	}
+});
+
+
 
 app.listen(PORT, () => {
 	console.log('Server started on port ' + PORT);
