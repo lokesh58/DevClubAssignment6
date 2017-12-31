@@ -145,8 +145,7 @@ app.get('/:user/viewNotes', (req, res) => {
 	const userC = req.cookies['loginInfo'];
 	const user = req.params.user;
 	if (userC == user) {
-		var page = '<!doctype html><html><head><title>Notes</title></head><body><h1>Notes</h1><ul>';
-		page += '<li>Let\'s see if it works</li>';
+		var MyWeb_Page = '<!doctype html><html><head><title>Notes</title></head><body><h1>Notes</h1><ul>';
 		pg.connect(process.env.DATABASE_URL, (err, client, done) => {
 			if (err) {
 				console.log(err);
@@ -160,21 +159,16 @@ app.get('/:user/viewNotes', (req, res) => {
 						res.send('Error ' + err);
 					} else {
 						const notes = result.rows;
-						console.log(notes);
-						console.log(notes[0]);
-						console.log(notes[0].note);
-						console.log(notes.length);
-						//page += '<li>'+notes+'</li>';
 						for (var i = 0; i < notes.length; i++) {
-							page += `<li>${notes[i].note}</li>`;
+							MyWeb_Page += '<li>'+notes[i].note+'</li>';
 						}
 					}
 				});
 			}
 		});
-		page += '</ul></body></html>';
-		console.log(page);
-		res.send(page);
+		MyWeb_Page += '</ul><p>Click <a href="/'+user+'">here</a> to go back</p></body></html>';
+		console.log(MyWeb_Page);
+		res.send(MyWeb_Page);
 	} else {
 		if (userC == undefined) {
 			res.clearCookie('loginInfo');
