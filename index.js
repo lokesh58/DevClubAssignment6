@@ -159,9 +159,9 @@ app.get('/:user/viewNotes', (req, res) => {
 						res.send('Error ' + err);
 					} else {
 						const notes = result.rows;
-						console.log(notes['note']);
+						console.log(notes);
 						for (var i = 0; i < notes.length; i++) {
-							page += '<li>' + notes + '</li>';
+							page += '<li>' + notes[i].note + '</li>';
 						}
 					}
 				});
