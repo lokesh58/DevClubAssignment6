@@ -171,7 +171,7 @@ app.get('/:user/viewNotes', (req, res) => {
 			}
 		});
 		page += '</ul></body></html>';
-		res.send(page);
+		//res.send(page);
 	} else {
 		if (userC == undefined) {
 			res.clearCookie('loginInfo');
