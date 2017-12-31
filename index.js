@@ -163,6 +163,7 @@ app.get('/:user/viewNotes', (req, res) => {
 						console.log(notes);
 						console.log(notes[0]);
 						console.log(notes[0].note);
+						console.log(notes.length);
 						//page += '<li>'+notes+'</li>';
 						for (var i = 0; i < notes.length; i++) {
 							page += `<li>${notes[i].note}</li>`;
@@ -172,6 +173,7 @@ app.get('/:user/viewNotes', (req, res) => {
 			}
 		});
 		page += '</ul></body></html>';
+		console.log(page);
 		res.send(page);
 	} else {
 		if (userC == undefined) {
