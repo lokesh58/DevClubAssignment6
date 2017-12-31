@@ -69,6 +69,7 @@
 		</form>
 		<script>
 			document.getElementById('add').addEventListener('click', addToList);
+			document.getElementById('notesView').contentWindow.location.reload(true);
 
 			function getList(text) {
 				return '<span class="text">' + text + '</span><span class="button"><button onClick="editItem(this)"><img src="source/img/edit.png" alt="Edit" /></button><button onClick="deleteItem(this)"><img src="source/img/delete.png" alt="Delete" /></button></span>';
@@ -80,7 +81,6 @@
 				input.value = '';
 				document.getElementById('noteForm').value = text;
 				document.getElementById('theForm').submit();
-				document.getElementById('notesView').contentWindow.location.reload();
 			}
 
 			function makeInput(text) {
