@@ -145,7 +145,7 @@ app.get('/:user/viewNotes', (req, res) => {
 	const userC = req.cookies['loginInfo'];
 	const user = req.params.user;
 	if (userC == user) {
-		let page = '<!doctype html><html><head><title>Notes</title></head><body><h1>Notes</h1><ul>';
+		var page = '<!doctype html><html><head><title>Notes</title></head><body><h1>Notes</h1><ul>';
 		pg.connect(process.env.DATABASE_URL, (err, client, done) => {
 			if (err) {
 				console.log(err);
@@ -159,7 +159,7 @@ app.get('/:user/viewNotes', (req, res) => {
 						res.send('Error ' + err);
 					} else {
 						const notes = result.rows;
-						for (let i = 0; i < notes.length; i++) {
+						for (var i = 0; i < notes.length; i++) {
 							page += '<li>' + notes[i] + '</li>';
 						}
 					}
@@ -174,14 +174,14 @@ app.get('/:user/viewNotes', (req, res) => {
 		}
 		res.redirect('/');
 	}
-}
+});
 
 app.post('/:user/addNote', (req, res) => {
 	const userC = req.cookies['loinInfo'];
 	const user = req.params.user;
 	if (userC == user) {
 		const note = req.body.note;
-		pg.connect(process.env.DATABASE_URL, (err, client, done) {
+		pg.connect(process.env.DATABASE_URL, (err, client, done) => {
 			if (err) {
 				console.log(err);
 				res.send("Error " + err);
@@ -197,7 +197,7 @@ app.post('/:user/addNote', (req, res) => {
 					}
 				});
 			}
-		}
+		});
 	} else {
 		if (userC != undefined) {
 			res.clearCookie('loginInfo');
