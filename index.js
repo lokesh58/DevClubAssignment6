@@ -163,13 +163,13 @@ app.get('/:user/viewNotes', (req, res) => {
 							MyWeb_Page += '<li>'+notes[i].note+'</li>';
 							console.log(MyWeb_Page);
 						}
+						MyWeb_Page += '</ul><p>Click <a href="/'+user+'">here</a> to go back</p></body></html>';
+						console.log(MyWeb_Page);
+						res.send(MyWeb_Page);
 					}
 				});
 			}
 		});
-		MyWeb_Page += '</ul><p>Click <a href="/'+user+'">here</a> to go back</p></body></html>';
-		console.log(MyWeb_Page);
-		res.send(MyWeb_Page);
 	} else {
 		if (userC == undefined) {
 			res.clearCookie('loginInfo');
