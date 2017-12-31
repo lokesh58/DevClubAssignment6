@@ -161,7 +161,7 @@ app.get('/:user/viewNotes', (req, res) => {
 						const notes = result.rows;
 						console.log(notes['note']);
 						for (var i = 0; i < notes.length; i++) {
-							page += '<li>' + notes[i]['note'] + '</li>';
+							page += '<li>' + notes + '</li>';
 						}
 					}
 				});
