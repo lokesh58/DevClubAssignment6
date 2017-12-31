@@ -164,7 +164,6 @@ app.get('/:user/viewNotes', (req, res) => {
 						console.log(notes[0]);
 						console.log(notes[0].note);
 						//page += '<li>'+notes+'</li>';
-						res.send(notes);
 						for (var i = 0; i < notes.length; i++) {
 							page += `<li>${notes[i].note}</li>`;
 						}
@@ -173,7 +172,7 @@ app.get('/:user/viewNotes', (req, res) => {
 			}
 		});
 		page += '</ul></body></html>';
-		//res.send(page);
+		res.send(page);
 	} else {
 		if (userC == undefined) {
 			res.clearCookie('loginInfo');
