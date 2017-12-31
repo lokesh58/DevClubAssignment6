@@ -163,11 +163,11 @@ app.get('/:user/viewNotes', (req, res) => {
 						console.log(notes);
 						console.log(notes[0]);
 						console.log(notes[0].note);
-						page += '<li>'+notes+'</li>';
+						//page += '<li>'+notes+'</li>';
 						res.send(notes);
-						/*for (var i = 0; i < notes.length; i++) {
-							page += '<li>' + notes[i].note + '</li>';
-						}*/
+						for (var i = 0; i < notes.length; i++) {
+							page += `<li>${notes[i].note}</li>`;
+						}
 					}
 				});
 			}
