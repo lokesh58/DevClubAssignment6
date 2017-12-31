@@ -164,8 +164,9 @@ app.get('/viewNotes', (req, res) => {
 
 app.post('/addNote', (req, res) => {
 	const user = req.cookies['loinInfo'];
-	if (user != undefined) {
+	//if (user != undefined) {
 		const note = req.body.note;
+		console.log(note);
 		pg.connect(process.env.DATABASE_URL, (err, client, done) => {
 			if (err) {
 				console.log(err);
@@ -178,14 +179,15 @@ app.post('/addNote', (req, res) => {
 						console.log(err);
 						res.send(err);
 					} else {
+						console.log('Note added');
 						res.redirect('/'+user);
 					}
 				});
 			}
 		});
-	} else {
-		res.redirect('/');
-	}
+	//} else {
+	//	res.redirect('/');
+	//}
 });
 
 app.get('/:user', (req, res) => {
