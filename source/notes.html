@@ -58,8 +58,11 @@
 		<div id="addNote">
 			<input id="noteIn" type="text" placeholder="Enter note here..." /><button id="add"><img src="source/img/plus.png" alt="Add" /></button>
 		</div>
-		<div id="notes"><ul id="noteList"></ul></div>
+		<p>Click <a href="./viewNotes">here</a> to view your notes</p>
 		<p><a href="/logout">Logout</a></p>
+		<form method="post" action="./addNote" id="theForm">
+			<input type="hidden" name="note" id="noteForm" />
+		</form>
 		<script>
 			document.getElementById('add').addEventListener('click', addToList);
 
@@ -71,10 +74,8 @@
 				const input = document.getElementById('noteIn');
 				const text = input.value;
 				input.value = '';
-				const list = document.getElementById('noteList');
-				const listItem = document.createElement('li');
-				listItem.innerHTML = getList(text);
-				list.insertBefore(listItem, list.childNodes[0]);
+				document.getElementById('noteForm').value = text;
+				document.getElementById('theForm').submit();
 			}
 
 			function makeInput(text) {
