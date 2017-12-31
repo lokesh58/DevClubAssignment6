@@ -146,6 +146,7 @@ app.get('/:user/viewNotes', (req, res) => {
 	const user = req.params.user;
 	if (userC == user) {
 		var page = '<!doctype html><html><head><title>Notes</title></head><body><h1>Notes</h1><ul>';
+		page += '<li>Let\'s see if it works</li>';
 		pg.connect(process.env.DATABASE_URL, (err, client, done) => {
 			if (err) {
 				console.log(err);
